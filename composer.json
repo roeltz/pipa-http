@@ -1,0 +1,27 @@
+{
+    "name": "pipa/http",
+    "license": "MIT",
+    "description": "HTTP package for the Pipa Framework",
+    "authors": [
+        {
+            "name": "Leonardo Rothe Tagliafico",
+            "email": "leo_rothe@msn.com",
+            "homepage": "http://leorothe.com/"
+        }
+    ],
+    "autoload": {
+    	"files": [
+    		"src/Pipa/HTTP/defaults.php"
+    	],
+    	"psr-0": {
+    		"Pipa\\": "src/"
+    	}
+    },
+    "require": {
+    	"php": ">=5.3.0",
+    	"pipa/base": "*"
+    },
+    "suggest": {
+    	"pipa/pdf": "Provides well integrated PDF view support"
+    }
+}
