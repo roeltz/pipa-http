@@ -65,6 +65,7 @@ class Request extends BaseRequest {
 	}
 	
 	function getURL() {
-		return ($this->https ? "https" : "http") . "://{$this->host}{$this->path}?{$_SERVER['QUERY_STRING']}";
+		$qs = $_SERVER['QUERY_STRING'] ? "?{$_SERVER['QUERY_STRING']}" : "";
+		return ($this->https ? "https" : "http") . "://{$this->host}{$this->path}$qs";
 	}
 }
