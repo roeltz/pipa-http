@@ -10,7 +10,7 @@ class DefaultEntityParser implements EntityParser {
 		$data = $_REQUEST;
 		
 		foreach($data as $paramName=>&$value) {
-			if (empty($value))
+			if (empty($value) && $value !== "0")
 				$value = null;
 		}
 
