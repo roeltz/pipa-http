@@ -75,19 +75,32 @@ class Response extends BaseResponse {
 		if ($this->responseBody) {
 			$buffer = $this->responseBody;
 		} else {
-			ob_start();
+			$this->startBuffer();
 			parent::render($dispatch);
-			$buffer = ob_get_contents();
-			ob_end_clean();
-		}
+			$buffer = $this->endBuffer();
+		}		
 
+		$this->outputHeaders($dispatch);
+
+		echo $buffer;
+	}
+	
+	function outputHeaders(Dispatch $dispatch) {
 		$this->setOptions($dispatch->result->options);
 		header("{$_SERVER['SERVER_PROTOCOL']} {$this->statusCode}");
 		foreach($this->headers as $name=>$value) {
 			header("$name: $value");
 		}
+	}
 
-		echo $buffer;
+	function startBuffer() {
+		ob_start();
+	}
+	
+	function endBuffer() {
+		$buffer = ob_get_contents();
+		ob_end_clean();
+		return $buffer;
 	}
 
 	protected function setOptions(array $options) {
