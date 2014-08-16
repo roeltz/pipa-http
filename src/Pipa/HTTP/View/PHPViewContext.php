@@ -3,6 +3,7 @@
 namespace Pipa\HTTP\View;
 use Pipa\Config\Config;
 use Pipa\Dispatch\Dispatch;
+use Pipa\Dispatch\Principal;
 use Pipa\Dispatch\Session;
 
 class PHPViewContext {
@@ -74,6 +75,13 @@ class PHPViewContext {
 		else
 			return true;
 	}
+	
+	function hasRole($role) {
+		if ($this->user && $this->user instanceof Principal)
+			return in_array($role, $this->user->getPrincipalRoles());
+		else
+			return false;
+	}
 
 	function currentAttr($view) {
 		if ($this->options['view'] == $view)
@@ -90,7 +98,7 @@ class PHPViewContext {
 		echo "<base href=\"{$base}\">";
 	}
 
-	function htmlSelect($attr, array $options, $value = null, $nullOption = null) {
+	function htmlSelect($attr, array $options = array(), $value = null, $nullOption = null) {
 		$value = \Pipa\to_array($value);
 		if (is_string($attr))
 			$attr = array('name'=>$attr);
