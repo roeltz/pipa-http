@@ -33,7 +33,7 @@ class RoutingExpression extends Expression {
 			$method = array('any'=>true);
 		}
 		
-		if ($host = trim($match->value['host']->value, '/')) {
+		if ($host = trim(@$match->value['host']->value->value, '/')) {
 			$host = array('capture'=>$host);
 		} else {
 			$host = array('any'=>true);
