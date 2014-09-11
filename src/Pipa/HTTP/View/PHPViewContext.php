@@ -71,7 +71,7 @@ class PHPViewContext {
 
 	function isAllowed($roles = null) {
 		if ($this->dispatch->security)
-			return $this->dispatch->security->isAllowed($this->dispatch, is_array($roles) ? $roles : func_get_args());
+			return $this->dispatch->security->isAllowed($this->user, is_array($roles) ? $roles : func_get_args());
 		else
 			return true;
 	}
