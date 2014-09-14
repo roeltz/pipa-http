@@ -70,6 +70,11 @@ class Response extends BaseResponse {
 		$this->responseBody = "<script>{$frame}.location = ".json_encode($uri).";</script>";
 	}
 
+	function setScriptVar($var, $values) {
+		$this->setContentType("text/javascript");
+		$this->responseBody = "$var = ".json_encode($values).";";
+	}
+
 	function redirect($location) {
 		$this->setHeader('Location', $location);
 		$this->overrides[] = 'http-redirect';
