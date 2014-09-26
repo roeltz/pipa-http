@@ -18,7 +18,8 @@ class UploadedFile extends File {
 	}
 	
 	function getOriginalExtension() {
-		return end(explode(".", $this->originalName));
+		$parts = explode(".", $this->originalName);
+		return array_pop($parts);
 	}
 	
 	function move($path) {
