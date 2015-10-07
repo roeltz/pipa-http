@@ -42,7 +42,9 @@ class ViewSelectionExpression extends Expression {
 			case 'accept':
 				return new Pattern(array('request:header:accept'=>array('regex'=>'/'.$alt->value['regex']->value.'/i')));
 			case 'option':
-				return new Pattern(array("result:option:{$alt->value['option']->value}"=>$alt->value['value']->value));
+				$value = $alt->value['value']->value;
+				if ($value == "*") $value = array("regex"=>'#^.+$#');
+				return new Pattern(array("result:option:{$alt->value['option']->value}"=>$value));
 		}
 	}
 }
