@@ -8,7 +8,7 @@ use Pipa\Locale\Locale;
 class HeaderLocaleExtractor implements LocaleExtractor {
 	
 	function getLocale(Dispatch $dispatch) {
-		if ($header = $dispatch->request->headers['accept-language']) {
+		if ($header = @$dispatch->request->headers['accept-language']) {
 			preg_match_all($this->getRegex(), $header, $matches);
 			if ($matches)
 				return new Locale($matches[0][0]);
