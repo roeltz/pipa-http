@@ -15,6 +15,7 @@ class Response extends BaseResponse {
 	public $overrides = array();
 	public $statusCode = 200;
 	public $responseBody;
+	public $responseFile;
 
 	function allowOrigin($origin) {
 		$this->setHeader('Access-Control-Allow-Origin', $origin);
@@ -28,13 +29,14 @@ class Response extends BaseResponse {
 		$this->overrides[] = 'http-no-cache';
 	}
 
-	function setAsDownload($contentType, $filename) {
+	function setAsDownload($contentType, $filename, $path = null) {
 		$this->setContentType($contentType);
 		$this->setHeader('Content-Disposition', "attachment; filename=$filename");
+		$this->responseFile = $path;
 		$this->overrides[] = 'http-content-type';
 		$this->overrides[] = 'http-download';
 	}
-	
+
 	function setContent($content, $type = null) {
 		$this->responseBody = $content;
 		if (!is_null($type)) {
@@ -86,19 +88,22 @@ class Response extends BaseResponse {
 	}
 
 	function render(Dispatch $dispatch) {
-		if ($this->responseBody) {
-			$buffer = $this->responseBody;
+		if ($this->responseFile) {
+			$this->outputHeaders($dispatch);
+			readfile($this->responseFile);
 		} else {
-			$this->startBuffer();
-			parent::render($dispatch);
-			$buffer = $this->endBuffer();
-		}		
-
-		$this->outputHeaders($dispatch);
-
-		echo $buffer;
+			if ($this->responseBody) {
+				$buffer = $this->responseBody;
+			} else {
+				$this->startBuffer();
+				parent::render($dispatch);
+				$buffer = $this->endBuffer();
+			}
+			$this->outputHeaders($dispatch);
+			echo $buffer;
+		}
 	}
-	
+
 	function outputHeaders(Dispatch $dispatch) {
 		$this->setOptions($dispatch->result->options);
 		header("{$_SERVER['SERVER_PROTOCOL']} {$this->statusCode}");
@@ -110,7 +115,7 @@ class Response extends BaseResponse {
 	function startBuffer() {
 		ob_start();
 	}
-	
+
 	function endBuffer() {
 		$buffer = ob_get_contents();
 		ob_end_clean();

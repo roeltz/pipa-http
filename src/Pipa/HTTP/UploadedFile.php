@@ -23,7 +23,7 @@ class UploadedFile extends File {
 	}
 	
 	function move($path) {
-		if (@move_uploaded_file($this->path, $path) === false)
+		if (move_uploaded_file($this->path, $path) === false)
 			throw new \Exception("Could not move uploaded file");
 		return new File($path);
 	}
