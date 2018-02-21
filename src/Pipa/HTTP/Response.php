@@ -14,6 +14,7 @@ class Response extends BaseResponse {
 	public $headers = array();
 	public $overrides = array();
 	public $statusCode = 200;
+	public $redirect = false;
 	public $responseBody;
 	public $responseFile;
 
@@ -79,6 +80,7 @@ class Response extends BaseResponse {
 
 	function redirect($location) {
 		$this->setHeader('Location', $location);
+		$this->redirect = true;
 		$this->overrides[] = 'http-redirect';
 	}
 
@@ -88,8 +90,9 @@ class Response extends BaseResponse {
 	}
 
 	function render(Dispatch $dispatch) {
-		if ($this->responseFile) {
+		if ($this->redirect) {
 			$this->outputHeaders($dispatch);
+		} elseif ($this->responseFile) {
 			readfile($this->responseFile);
 		} else {
 			if ($this->responseBody) {
