@@ -108,7 +108,7 @@ class Response extends BaseResponse {
 	}
 
 	function outputHeaders(Dispatch $dispatch) {
-		$this->setOptions($dispatch->result->options);
+		$this->setOptions((array) $dispatch->result->options);
 		header("{$_SERVER['SERVER_PROTOCOL']} {$this->statusCode}");
 		foreach($this->headers as $name=>$value) {
 			header("$name: $value");
