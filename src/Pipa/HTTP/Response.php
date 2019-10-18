@@ -27,7 +27,7 @@ class Response extends BaseResponse {
 		$this->setHeader('Expires', 'Tue, 01 Jan 2000 00:00:00 GMT');
 		$this->setHeader('Last-Modified', gmdate("D, d M Y H:i:s").' GMT');
 		$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-		$this->overrides[] = 'http-no-cache';
+		$this->overrides[] = 'http-cache';
 	}
 
 	function setAsDownload($contentType, $filename, $path = null) {
@@ -53,7 +53,8 @@ class Response extends BaseResponse {
 	function setExpiration($expression) {
 		$date = new DateTime($expression, new DateTimeZone('UTC'));
 		$this->setHeader('Expires', gmdate("D, d M Y H:i:s", $date->getTimestamp()));
-		$this->overrides[] = 'http-no-cache';
+		$this->setHeader('Cache-Control', 'must-revalidate');
+		$this->overrides[] = 'http-cache';
 	}
 
 	function setHeader($name, $value) {
@@ -129,6 +130,20 @@ class Response extends BaseResponse {
 		if (!in_array('http-allow-origin', $this->overrides) && ($origin = @$options['http-allow-origin'])) {
 			$this->allowOrigin($origin);
 		}
+		if (!in_array('http-cache', $this->overrides)) {
+			if (isset($options['http-cache'])) {
+				$cache = $options['http-cache'];
+
+				if ($cache) {
+					$this->setExpiration($options['http-cache']);
+				} elseif ($cache === false) {
+					$this->noCache();
+				}
+			} elseif (isset($options['http-cache'])) {
+				$this->noCache();
+			}
+		}
+
 		if (!in_array('http-content-type', $this->overrides) && ($contentType = @$options['http-content-type'])) {
 			$this->setContentType($contentType);
 		}
