@@ -83,14 +83,14 @@ class PHPViewContext {
 			return false;
 	}
 
-	function currentAttr($view) {
+	function currentAttr($view, $class = "current") {
 		if ($this->options['view'] == $view)
-			echo ' class="current"';
+			echo " class=\"$class\"";
 	}
 
-	function currentClass($view) {
+	function currentClass($view, $class = "current") {
 		if ($this->options['view'] == $view)
-			echo ' current';
+			echo " $class";
 	}
 
 	function htmlBase($base = null) {
