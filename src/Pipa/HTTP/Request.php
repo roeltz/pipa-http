@@ -48,6 +48,20 @@ class Request extends BaseRequest {
 		$this->headers = $headers;
 	}
 
+	function getAuthorization() {
+		if (($header = @$this->headers["authorization"]) && preg_match('#^(\w+)\s+(\S+)#i', $header, $m)) {
+			$type = $m[1];
+			$credentials = $m[2];
+
+			return (object) [
+				"type"=>strtolower($type),
+				"credentials"=>$credentials
+			];
+		} else {
+			return false;
+		}
+	}
+
 	function getComparableState() {
 		$state = array(
 			'context'=>'http',
@@ -67,5 +81,10 @@ class Request extends BaseRequest {
 	function getURL() {
 		$qs = $_SERVER['QUERY_STRING'] ? "?{$_SERVER['QUERY_STRING']}" : "";
 		return ($this->https ? "https" : "http") . "://{$this->host}{$this->path}$qs";
+	}
+
+	function isBearer($token) {
+		$auth = $this->getAuthorization();
+		return $auth && $auth->type === "bearer" && $auth->credentials === $token;
 	}
 }
