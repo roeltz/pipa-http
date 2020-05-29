@@ -94,6 +94,7 @@ class Response extends BaseResponse {
 		if ($this->redirect) {
 			$this->outputHeaders($dispatch);
 		} elseif ($this->responseFile) {
+			$this->outputHeaders($dispatch);
 			readfile($this->responseFile);
 		} else {
 			if ($this->responseBody) {
