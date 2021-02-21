@@ -13,7 +13,7 @@ class JSONView implements View {
 		if (isset($dispatch->request->data['callback'])) {
 			$json = "{$dispatch->request->data['callback']}({$json});";
 		}
-		$dispatch->response->setContentType("application/json");
+		$dispatch->response->setContentType("application/json; charset=utf-8");
 		echo $json;
 	}
 }
