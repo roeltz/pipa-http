@@ -65,8 +65,8 @@ class PHPViewContext {
 		return $this->dispatch->sub($action, $data)->run();
 	}
 
-	function localURL($path = "") {
-		return 'http'.(@$_SERVER['HTTPS'] ? 's' : '').'://'.$_SERVER['HTTP_HOST'].Config::get("http.base-url").$path;
+	function localURL($path = "", $forceHTTPS = false) {
+		return 'http'.($forceHTTPS || @$_SERVER['HTTPS'] ? 's' : '').'://'.$_SERVER['HTTP_HOST'].Config::get("http.base-url").$path;
 	}
 
 	function isAllowed($roles = null) {
