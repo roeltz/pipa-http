@@ -4,7 +4,7 @@ namespace Pipa\HTTP;
 use Pipa\Config\Config;
 use Pipa\Matcher\Expression;
 use Pipa\Matcher\Pattern;
-use Pipa\Parser\Match;
+use Pipa\Parser\SymbolMatch;
 use Pipa\Parser\Symbol\Regex;
 use Pipa\Parser\Symbol\Quantified\ZeroOrOne;
 use Pipa\Registry\Registry;
@@ -20,7 +20,7 @@ class RoutingExpression extends Expression {
 		));
 	}
 	
-	function toPattern(Match $match) {
+	function toPattern(SymbolMatch $match) {
 		$https = $match->value['https']->value ? 1 : array('any'=>true);
 		$baseUrl = Config::get("http.base-url");
 		$path = $match->value['path']->value;

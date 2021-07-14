@@ -3,12 +3,11 @@
 namespace Pipa\HTTP;
 use Pipa\Matcher\Expression;
 use Pipa\Matcher\Pattern;
-use Pipa\Parser\Match;
+use Pipa\Parser\SymbolMatch;
 use Pipa\Parser\Symbol\Alternative;
 use Pipa\Parser\Symbol\NonTerminal;
 use Pipa\Parser\Symbol\Regex;
 use Pipa\Parser\Symbol\Literal;
-use Pipa\Parser\Symbol\Quantified\ZeroOrOne;
 
 class ViewSelectionExpression extends Expression {
 	
@@ -32,7 +31,7 @@ class ViewSelectionExpression extends Expression {
 		))));
 	}
 	
-	function toPattern(Match $match) {
+	function toPattern(SymbolMatch $match) {
 		$alt = $match->value['alternative'];
 		switch($alt->name) {
 			case 'default':
