@@ -2,8 +2,8 @@
 
 namespace Pipa\HTTP;
 use Pipa\Config\Config;
-use Pipa\Match\Expression;
-use Pipa\Match\Pattern;
+use Pipa\Matcher\Expression;
+use Pipa\Matcher\Pattern;
 use Pipa\Parser\Match;
 use Pipa\Parser\Symbol\Regex;
 use Pipa\Parser\Symbol\Quantified\ZeroOrOne;
