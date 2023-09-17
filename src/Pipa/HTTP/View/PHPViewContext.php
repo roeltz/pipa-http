@@ -8,6 +8,7 @@ use Pipa\Dispatch\Session;
 
 class PHPViewContext {
 
+	static public $serverOverride;
 	public $data;
 	public $file;
 	public $viewsDir;
@@ -66,7 +67,8 @@ class PHPViewContext {
 	}
 
 	function localURL($path = "", $forceHTTPS = false) {
-		return 'http'.($forceHTTPS || @$_SERVER['HTTPS'] ? 's' : '').'://'.$_SERVER['HTTP_HOST'].Config::get("http.base-url").$path;
+		$server = self::$serverOverride ? self::$serverOverride : $_SERVER;
+		return 'http'.($forceHTTPS || @$server['HTTPS'] ? 's' : '').'://'.$server['HTTP_HOST'].Config::get("http.base-url").$path;
 	}
 
 	function isAllowed($roles = null) {
