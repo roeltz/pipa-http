@@ -27,13 +27,15 @@ class RoutingExpression extends Expression {
 		
 		$path = array('capture'=>$baseUrl.($path == '/' ? '' : $path));
 
-		if ($method = trim($match->value['method']->value->value)) {
+		$methodValue = (string) ((($match->value['method'] ?? null)?->value?->value) ?? '');
+		if ($method = trim($methodValue)) {
 			$method = array('capture'=>$method);
 		} else {
 			$method = array('any'=>true);
 		}
 		
-		if ($host = trim(@$match->value['host']->value->value, '/')) {
+		$hostValue = (string) ((($match->value['host'] ?? null)?->value?->value) ?? '');
+		if ($host = trim($hostValue, '/')) {
 			$host = array('capture'=>$host);
 		} else {
 			$host = array('any'=>true);

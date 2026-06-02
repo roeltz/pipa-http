@@ -6,6 +6,7 @@ use Pipa\HTTP\EntityParser;
 class JSONEntityParser implements EntityParser {
 
 	function parse($contentType) {
+		$contentType = (string) $contentType;
 		if (strpos($contentType, 'application/json') !== false) {
 			$json = @json_decode(file_get_contents("php://input"), true);
 			return array_merge($_REQUEST, (array) $json);
