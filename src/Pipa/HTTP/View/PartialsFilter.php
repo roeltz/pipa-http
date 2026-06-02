@@ -37,7 +37,7 @@ class PartialsFilter implements Filter {
 		$buffer = preg_replace_callback('/<!--\s*([\w-]+)\s+content\s*-->\s*([\s\S]*?)\s*<!--\s*end\s+\1\s+content\s*-->(?:\s*\n)?/i', function($m) use(&$partials){
 			$block = $m[1];
 			$content = $m[2];
-			$content = preg_replace('/<!--\s*parent\s*-->/i', @$partials[$block], $content);
+			$content = preg_replace('/<!--\s*parent\s*-->/i', (string)($partials[$block] ?? ''), $content);
 			$partials[$block] = $content;
 		}, $buffer);
 		
